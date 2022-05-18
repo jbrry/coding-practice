@@ -1,4 +1,3 @@
-
 """Count number of occurrences of characters in each substring."""
 
 def solution(S):
