@@ -14,30 +14,22 @@ def solution(A):
     changeFlag = True
 
     while changeFlag:
-        students_to_increase = []
-        students_to_decrease = []
+        update_array = [0] * len(A)
         for i in range(1, end, 1):
             # both neighbours have higher scores
             if A[i-1] > A[i] and A[i+1] > A[i]:
-                students_to_increase.append(i)
+                update_array[i] = 1
             # both neighbours have lower scores
             elif A[i-1] < A[i] and A[i+1] < A[i]:
-                students_to_decrease.append(i)
-
-        if students_to_increase:
-            changeFlag = True
-            for i in students_to_increase:
-                A[i] += 1
+                update_array[i] = -1
+        
+        # If there are updates (1 or -1), then do element-wise addition with A.
+        if set([1, -1]).issubset(update_array):
+            A = [sum(value) for value in zip(A, update_array)]
+        # No more updates, set flag to False and exit loop.
         else:
             changeFlag = False
-
-        if students_to_decrease:
-            changeFlag = True
-            for i in students_to_decrease:
-                A[i] -= 1
-        else:
-            changeFlag = False
-
+    
     return A
 
 print(solution([1,6,3,4,3,5])) # -> [1, 4, 4, 4, 4, 5]
