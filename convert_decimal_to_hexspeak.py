@@ -24,13 +24,14 @@ def solution(S):
         q, mod = divmod(q, 16)
         return q, mod
 
-    q = int(S)
-    remainders = []
-    # recursively get the q and mod until q is 0.
-    while q != 0:
+    def get_remainders(q):
+        if q == 0:
+            return []
         q, mod = get_divmod(q)
-        remainders.append(mod)
+        return [mod] + get_remainders(q)
 
+    q = int(S)
+    remainders = get_remainders(q)
     output_string = ""
     # go through remainders in reverse and access string value from alphabet
     while remainders:
@@ -39,9 +40,7 @@ def solution(S):
             return "ERROR"
         else:
             output_string += d[r]
-
     return output_string
-
 
 print(solution("659724"))
 print(solution("0"))
