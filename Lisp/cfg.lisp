@@ -3,7 +3,6 @@
 #|
 For this CFG parser, we will use the rules given in Charniak (2016):  
 	https://cs.brown.edu/courses/csci1460/assets/files/parsing.pdf
-
 |#
 
 
@@ -18,10 +17,14 @@ For this CFG parser, we will use the rules given in Charniak (2016):
 (setf (gethash 'VP *rules*)  '((VBZ S) (VBZ NP)))
 (setf (gethash 'NN *rules*)  '((book)))
 
-
 ;; list to write out terminals
-(defparameter expansion '(ROOT))
-;(setq *expansion* (append *expansion* '(little lamb)))
+(defparameter *sentence* '(ROOT))
+
+
+(defun expand-sentence (y)
+  (setf y (list y))
+  (setf *sentence* (append *sentence* y)))
+
 
 (defun derive-tree (y)
   "Checks whether a symbol is part of the grammar rules
@@ -34,14 +37,21 @@ For this CFG parser, we will use the rules given in Charniak (2016):
   and call the function recursively until this is no longer the
   case (i.e. we have reached a terminal"
   (if (null (gethash y *rules*)); symbol is not in the rules
-      (progn
-	(format t "~%adding ~s to string" y))
+      (expand-sentence y); add terminal to output string
       (progn
 	(setq y (gethash y *rules*)); set y to rule values
 	(setq y (nth (random (length y)) y)); pick a random rule when more than one is described. This won't matter for singleton rules
-	(format t "~%~s < random choice!" y)
-	(loop for c in y do
-	      (format t "~%looking up ~s" c) 
-	      (derive-tree c)))))
- 
-(derive-tree 'S)
+	(loop for child in y do 
+	      (derive-tree child)))))
+
+
+(defun generate-n (n)
+  "Generate a sentence n times"
+  (if (= 0 n) nil
+      (progn
+	(setq *sentence* '(ROOT)); make sure the sentence list only contains the ROOT symbol
+	(derive-tree 'S); derive the sentence
+	(print *sentence*)
+	(generate-n (- n 1)))))
+
+(generate-n 20)
