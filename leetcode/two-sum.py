@@ -23,4 +23,28 @@ answers = [[0, 1], [1, 2], [0, 1]]
 for i, (nums, target) in enumerate(zip(nums_list, targets_list)):
     indices = s.twoSum(nums, target)
     assert indices == answers[i]
-    print(nums, target)
+
+
+class SolutionFast:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+
+        d = {}
+        indices = []
+        for i in range(len(nums)):
+            complement = target - nums[i]
+
+            if complement in d:
+                indices.append(d.get(complement))
+                indices.append(i)
+                break
+            else:
+                d[nums[i]] = i
+
+        return indices
+
+
+sf = SolutionFast()
+
+for i, (nums, target) in enumerate(zip(nums_list, targets_list)):
+    indices = sf.twoSum(nums, target)
+    assert indices == answers[i]
