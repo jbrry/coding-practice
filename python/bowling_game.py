@@ -33,7 +33,7 @@ class BowlingGame:
                 self.total += 10 + self.strike_bonus(frame_idx)
                 frame_idx += 1
             elif self.is_spare(frame_idx):
-                self.total = 10 + self.spare_bonus(frame_idx)
+                self.total += 10 + self.spare_bonus(frame_idx)
                 frame_idx += 2
             else:
                 self.total += self.sum_of_balls_in_frame(frame_idx)
