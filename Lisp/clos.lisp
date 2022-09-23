@@ -1,3 +1,4 @@
+
 (defclass bowling-game ()
   ((total
     :initarg :total    ;; name for slot when initialising
