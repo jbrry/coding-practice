@@ -18,7 +18,7 @@
 ;  (setf (rolls g) (make-list 21 :initial-element 0)))
 
 
-(defmethod initialize-instance :after ((g bowling-game))
+(defmethod initialize-instance :after ((g bowling-game) &key)
   (setf (rolls g) (make-list 21 :initial-element 0)))
 
 
